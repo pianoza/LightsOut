@@ -38,42 +38,37 @@ for t in range(5):
             if t > 0:
                 A[t*5+i][(t-1)*5+j] = I[i][j]
                 A[(t-1)*5+i][t*5+j] = I[i][j]
+
 #Test cases
 b = np.array([1, 0, 1, 0, 0,
               1, 0, 0, 1, 1,
               0, 1, 1, 1, 0,
               0, 1, 1, 0, 0,
-              0, 0, 1, 1, 0])
-b = np.array([[1, 1, 0, 1, 0],
-              [1, 0, 0, 1, 1],
-              [0, 1, 1, 0, 0],
-              [0, 0, 1, 0, 0],
-              [0, 0, 0, 0, 0]])
-              
+              0, 0, 1, 1, 0])              
 
-b = b.reshape(25, 1)
+#b = b.reshape(25, 1)
 
-x = np.mod(np.round(np.linalg.solve(A, b)), 2)
 
-print x.reshape(5, 5)
-x2 = np.mod(np.add(x, N1), 2)
-x3 = np.mod(np.add(x, N2), 2)
-x4 = np.mod(np.add(x, N1, N2), 2)
+print A
+print b
+#Elimination
+for i in range(24):
+    for j in range(i+1, 25):
+        if A[i][i] == 0:
+            ok = False
+            non_zero = i
+            for t in range(j, 25):
+                if A[j][i] != 0:
+                    non_zero = j
+                    ok = True
+                    break
+            if ok == True:
+                A[i], A[non_zero] = A[non_zero], A[i]
+                b[i], b[non_zero] = b[non_zero], b[i]
 
-print np.sum(x)
-print np.sum(x2)
-print np.sum(x3)
-print np.sum(x4)
-
-#Ax = b -> x = b*(A^-1)
-
-#invA = np.mod(np.round(np.linalg.tensorinv(A, 1)).astype('int'), 2)
-#x1 = np.mod(np.dot(invA, b), 2)
-#x2 = np.mod(np.add(x1, N1), 2)
-#x3 = np.mod(np.add(x1, N2), 2)
-#x4 = np.mod(np.add(x1, N1, N2), 2)
-
-#print np.sum(x1)
-#print np.sum(x2)
-#print np.sum(x3)
-#print np.sum(x4)
+        if A[i][i] != 0 and A[j][i] != 0:
+            for t in range(i, 25):
+                A[j][t] = (A[j][t] + A[i][t]) % 2
+                b[j] = (b[j]+b[i]) % 2
+print A
+print b
