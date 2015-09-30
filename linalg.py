@@ -6,6 +6,7 @@ Created on Tue Sep 29 21:08:01 2015
 """
 
 import numpy as np
+from mod2solver import mod2solver
 
 A = np.arange(25 * 25).reshape(25, 25)
 A.fill(0)
@@ -40,35 +41,30 @@ for t in range(5):
                 A[(t-1)*5+i][t*5+j] = I[i][j]
 
 #Test cases
-b = np.array([1, 0, 1, 0, 0,
-              1, 0, 0, 1, 1,
+b = np.array([0, 0, 0, 1, 0,
+              1, 0, 1, 0, 1,
+              0, 0, 1, 0, 0,
               0, 1, 1, 1, 0,
-              0, 1, 1, 0, 0,
-              0, 0, 1, 1, 0])              
+              0, 0, 0, 1, 0])
 
-#b = b.reshape(25, 1)
+u, bc = mod2solver(A, b, 25)
+print u
+print bc
 
+x = np.zeros(25)
+#take x25 and x24 = 0
+for i in range(0, 25):
+    u[i][23] = 0
+    u[i][24] = 0
+for i in range(22, -1, -1):
+    if u[i][i] == 0:
+        x[i] = 0
+    else:
+        k = 0
+        for j in range(24, i, -1):
+            k += u[i][j]
+        x[i] = (b[i] + k) % 2
+    for j in range(i, -1, -1):
+        u[j][i] *= x[i]
 
-print A
-print b
-#Elimination
-for i in range(24):
-    for j in range(i+1, 25):
-        if A[i][i] == 0:
-            ok = False
-            non_zero = i
-            for t in range(j, 25):
-                if A[j][i] != 0:
-                    non_zero = j
-                    ok = True
-                    break
-            if ok == True:
-                A[i], A[non_zero] = A[non_zero], A[i]
-                b[i], b[non_zero] = b[non_zero], b[i]
-
-        if A[i][i] != 0 and A[j][i] != 0:
-            for t in range(i, 25):
-                A[j][t] = (A[j][t] + A[i][t]) % 2
-                b[j] = (b[j]+b[i]) % 2
-print A
-print b
+print x.reshape(5, 5)
