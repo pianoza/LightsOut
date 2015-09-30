@@ -42,11 +42,12 @@ for t in range(5):
                 A[(t-1)*5+i][t*5+j] = I[i][j]
 
 #Test cases
-b = np.array([1, 0, 1, 1, 0,
+
+b = np.array([0, 1, 1, 1, 0,
               0, 0, 0, 1, 1,
-              1, 1, 1, 0, 1,
-              0, 0, 1, 1, 0,
-              0, 1, 0, 0, 0])
+              1, 1, 1, 1, 0,
+              1, 0, 0, 0, 1,
+              0, 1, 1, 1, 1])
 
 u, bc = mod2solver(A, b, 25)
 result = mod2result(u,bc)
@@ -66,7 +67,7 @@ for i in range(22, -1, -1):
         k = 0
         for j in range(24, i, -1):
             k += u[i][j]
-        x[i] = (b[i] + k) % 2
+        x[i] = (bc[i] + k) % 2
     for j in range(i, -1, -1):
         u[j][i] *= x[i]
 
