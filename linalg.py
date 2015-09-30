@@ -7,6 +7,7 @@ Created on Tue Sep 29 21:08:01 2015
 
 import numpy as np
 from mod2solver import mod2solver
+from mod2result import mod2result
 
 A = np.arange(25 * 25).reshape(25, 25)
 A.fill(0)
@@ -41,15 +42,17 @@ for t in range(5):
                 A[(t-1)*5+i][t*5+j] = I[i][j]
 
 #Test cases
-b = np.array([0, 0, 0, 1, 0,
-              1, 0, 1, 0, 1,
-              0, 0, 1, 0, 0,
-              0, 1, 1, 1, 0,
-              0, 0, 0, 1, 0])
+b = np.array([1, 0, 1, 1, 0,
+              0, 0, 0, 1, 1,
+              1, 1, 1, 0, 1,
+              0, 0, 1, 1, 0,
+              0, 1, 0, 0, 0])
 
 u, bc = mod2solver(A, b, 25)
+result = mod2result(u,bc)
 print u
 print bc
+print result
 
 x = np.zeros(25)
 #take x25 and x24 = 0
