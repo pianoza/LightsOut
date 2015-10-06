@@ -43,11 +43,11 @@ for t in range(5):
 
 #Test cases
 
-b = np.array([0, 1, 1, 1, 0,
-              0, 0, 0, 1, 1,
-              1, 1, 1, 1, 0,
-              1, 0, 0, 0, 1,
-              0, 1, 1, 1, 1])
+b = np.array([1, 0, 1, 1, 1,
+              0, 0, 1, 1, 1,
+              0, 1, 0, 0, 1,
+              1, 1, 1, 0, 1,
+              0, 1, 0, 0, 0])
 
 u, bc = mod2solver(A, b, 25)
 result = mod2result(u,bc)

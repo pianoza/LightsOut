@@ -7,8 +7,8 @@ Created on Wed Sep 30 18:26:31 2015
 import numpy as np
 
 
-def mod2solver(A,b,size):
-    print "Starting mod2solver"
+def mod2solver(A,b,size=25):
+    #print "Starting mod2solver"
     
     # Loop over each row
     for row in range(size):
