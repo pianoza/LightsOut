@@ -27,3 +27,21 @@ def init():
                     A[t*5+i][(t-1)*5+j] = I[i][j]
                     A[(t-1)*5+i][t*5+j] = I[i][j]
     return A
+
+def getConfig():
+    x = np.random.randint(2, size=25)
+    pad = np.zeros(25)
+    for i in range(25):
+        if x[i] == 1:
+            pad[i] = (pad[i]+1)%2
+            column = i % 5
+            row = (i - column)/5
+            if row-1 > -1:
+                pad[(row-1)*5+column] = (pad[(row-1)*5+column]+1)%2
+            if row+1 < 5:
+                pad[(row+1)*5+column] = (pad[(row+1)*5+column]+1)%2
+            if column-1 > -1:
+                pad[row*5+column-1] = (pad[row*5+column-1]+1)%2
+            if column+1 < 5:
+                pad[row*5+column+1] = (pad[row*5+column+1]+1)%2
+    return pad.astype(int)
