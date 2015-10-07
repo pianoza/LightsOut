@@ -5,11 +5,9 @@ Created on Wed Sep 30 18:26:31 2015
 @author: daudt
 """
 import numpy as np
-
+from operator import add
 
 def mod2solver(A,b,size=25):
-    #print "Starting mod2solver"
-    
     # Loop over each row
     for row in range(size):
         if A[row][row] == 0:
@@ -21,8 +19,9 @@ def mod2solver(A,b,size=25):
                     break
             #swap rows
             if newPivot > -1:
-                A[row],A[newPivot] = A[newPivot],A[row]
-                b[row],b[newPivot] = b[newPivot],b[row]
+                
+                A[row],A[newPivot] = A[newPivot].copy(),A[row].copy() 
+                b[row],b[newPivot] = b[newPivot].copy(),b[row].copy()
                 #should I worry about final cases here?
         for otherRows in range(row+1, size):
             #clear column under current pivot

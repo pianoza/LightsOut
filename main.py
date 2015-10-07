@@ -25,12 +25,12 @@ def isSolved(state):
     return not np.count_nonzero(state)
 
 def onPressedButton(i):
-    print i
+    #print i
     column = i % 5
     row = (i - column)/5
     global lightGrid
     global boardState
-    print "before:\n{}".format(boardState.reshape(5, 5))
+    #print "before:\n{}".format(boardState.reshape(5, 5))
     boardState[row*5+column] = (boardState[row*5+column] + 1) % 2
     if (row+1)<5:
         lightGrid[(row+1)*5+column].toggle()
@@ -46,7 +46,7 @@ def onPressedButton(i):
         boardState[row*5+column-1] = (boardState[row*5+column-1] + 1) % 2
     if isSolved(boardState):
         solutionScreenVar.set("Well Done!")
-    print "after:\n{}".format(boardState.reshape(5, 5))    
+    #print "after:\n{}".format(boardState.reshape(5, 5))    
 
 def onNewGameButton():
     global config
@@ -54,7 +54,7 @@ def onNewGameButton():
     global boardState
     config = getConfig()
     lightGrid = []
-    boardState = config
+    boardState = config.copy()
     for numRow in range(5):
         for numColumn in range(5):
             i=numRow*5+numColumn
@@ -67,18 +67,19 @@ def onNewGameButton():
                             )
             lightGrid[numRow*5+numColumn].grid(row=numRow+2, column=numColumn+1)
             if config[numRow*5+numColumn]==1:
-                lightGrid[numRow*5+numColumn].deselect()
-            else:
                 lightGrid[numRow*5+numColumn].select()
-
+            else:
+                lightGrid[numRow*5+numColumn].deselect()
+    solutionScreenVar.set("New Game")
 
 def getSolution(config):
     A = init()
-    U, nconf = mod2solver(A, config)
-    return mod2result(U, nconf)
+    U, nconf = mod2solver(A.copy(), config.copy())
+    #print U
+    return mod2result(U.copy(), nconf.copy())
     
 def onShowSolutionButton():
-    solutionFormatted = getSolution(config)
+    solutionFormatted = getSolution(boardState.copy())
     solutionFormatted = solutionFormatted.reshape(5, 5)
     solutionScreenVar.set(solutionFormatted)
 
@@ -97,8 +98,9 @@ newGameButton.grid(columnspan=6, row=8)
 showSolutionButton = Button(root, text="Show solution", command=onShowSolutionButton)
 showSolutionButton.grid(columnspan=6, row=9)
 
-solutionScreen = Label(root, text=solutionFormatted, textvariable=solutionScreenVar)
+solutionScreen = Label(root, textvariable=solutionScreenVar)
 solutionScreen.grid(columnspan=6, row = 10)
+
 
 root.mainloop()
 
