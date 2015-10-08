@@ -2,7 +2,7 @@
 """
 Created on Wed Sep 30 18:26:31 2015
 
-@author: daudt
+@authors: daudt, kaisar
 """
 import numpy as np
 from operator import add
