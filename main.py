@@ -8,6 +8,7 @@ Created on Sat Oct  3 13:54:28 2015
 from Tkinter import *
 from mod2solver import mod2solver
 from mod2result import mod2result
+from minSolution import minSolution
 from init import *
 import numpy as np
 
@@ -75,8 +76,9 @@ def onNewGameButton():
 def getSolution(config):
     A = init()
     U, nconf = mod2solver(A.copy(), config.copy())
-    #print U
-    return mod2result(U.copy(), nconf.copy())
+    firstSolution = mod2result(U.copy(), nconf.copy())
+    minimumSolution = minSolution(firstSolution)
+    return minimumSolution
     
 def onShowSolutionButton():
     solutionFormatted = getSolution(boardState.copy())

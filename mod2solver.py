@@ -5,7 +5,7 @@ Created on Wed Sep 30 18:26:31 2015
 @author: daudt
 """
 import numpy as np
-from operator import add
+
 
 def mod2solver(A,b,size=25):
     # Loop over each row
