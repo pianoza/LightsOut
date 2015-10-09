@@ -2,7 +2,7 @@
 """
 Created on Sat Oct  3 13:54:28 2015
 
-@author: daudt
+@authors: daudt, kaisar
 """
 
 from Tkinter import *
